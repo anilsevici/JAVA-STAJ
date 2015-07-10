@@ -12,9 +12,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-=======
-	<classpathentry kind="lib" path="C:/Users/ANIL/Documents/wildfly-8.2.0.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
->>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
