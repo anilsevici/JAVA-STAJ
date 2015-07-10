@@ -102,6 +102,7 @@ app.controller('IlanCtrl', function($scope, $http) {
 		title : '',
 		definition : '',
 		description : '',
+<<<<<<< HEAD
 		aktif : '',
 		pasif : '',
 
@@ -113,6 +114,13 @@ app.controller('IlanCtrl', function($scope, $http) {
 
 	$scope.setilanDate2 = function(value) {
 		$scope.ilan.pasif = value.toLocaleString();
+=======
+		date : ''
+	};
+
+	$scope.setilanDate = function(value) {
+		$scope.ilan.date = value;
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 	};
 
 	$scope.saveilan = function(ilan) {
@@ -139,7 +147,10 @@ app.controller('DateTimePickerDemoCtrl',
 		function($scope, $timeout) {
 			$scope.dateTimeNow = function() {
 				$scope.date = new Date();
+<<<<<<< HEAD
 				$scope.date2 = new Date();
+=======
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 			};
 			$scope.dateTimeNow();
 
@@ -180,6 +191,7 @@ app.controller('DateTimePickerDemoCtrl',
 				$scope.setilanDate(value);
 			}, true);
 
+<<<<<<< HEAD
 			$scope.$watch("date2", function(value) {
 				console.log('New date value:' + value);
 				$scope.setilanDate2(value);
@@ -228,6 +240,13 @@ app.controller('HomeCtrl', function($scope, $http, $timeout) {
 
 });
 
+=======
+			$scope.resetHours = function() {
+				$scope.date.setHours(1);
+			};
+		});
+
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 app.controller('AppCtrl', function($scope, AuthService) {
 	$scope.currentUsername = null;
 	$scope.isAuthenticated = AuthService.isAuthenticated;
@@ -240,5 +259,8 @@ app.controller('AppCtrl', function($scope, AuthService) {
 	$scope.logout = function() {
 		AuthService.logout();
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 });

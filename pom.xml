@@ -27,6 +27,7 @@
 		</plugins>
 	</build>
 	<dependencies>
+<<<<<<< HEAD
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -40,6 +41,14 @@
 			<version>1.0.0.Final</version>
 		</dependency>
 
+=======
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
 		<dependency>
 			<groupId>org.scribe</groupId>
 			<artifactId>scribe</artifactId>
