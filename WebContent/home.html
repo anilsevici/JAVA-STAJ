@@ -1,0 +1,53 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+
+
+<div class="container" ng-controller="HomeCtrl">
+
+	<h3>ILANLAR</h3>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col" class="first">Basvuru</th>
+				<th scope="col">Summary</th>
+				<th scope="col">Aktif</th>
+				<th scope="col">Pasif</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ilan in ilanlar">
+				<td>
+					<button class="btn">	
+						<span class="glyphicon glyphicon-pencil"></span>  Choose ME!!
+					</button>
+				</td>
+
+				<th scope="row" ng-class="{showdetails:index==$index}"
+					id="ilan-{{$index}}">
+					<h3>
+						<a href="#expandDetails-{{ ilan.$id }}"
+							ng-click="toggleIlanDetails($event,$index)"> <span
+							class="-{{ index==$index ? 'minus' : 'plus' }}-sign"
+							aria-hidden="true"></span> {{ ilan.title }} <span
+							class="visuallyhidden">{{ index==$index ? " - click to
+								hide details" : " - click to show details"}}</span>
+						</a>
+					</h3>
+					<div class="ticket-details">
+						<h4>Definition:</h4>
+						<span>{{ilan.definition}}</span>
+						<h4>Recommended Fix:</h4>
+						<span>{{ilan.description}}</span>
+					</div>
+				</th>
+				<td>{{ ilan.aktif }}</td>
+				<td>{{ilan.pasif }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<hr>
+</div>
