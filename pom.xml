@@ -1,11 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+<<<<<<< HEAD
 	<groupId>com.anilsevici</groupId>
+=======
+	<groupId>com.anilsevic</groupId>
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
 	<artifactId>kariyerweb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<build>
+<<<<<<< HEAD
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -16,6 +21,11 @@
 				</configuration>
 			</plugin>
 			<plugin>
+=======
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
@@ -23,11 +33,33 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+<<<<<<< HEAD
 		</plugins>
 	</build>
 
 	<dependencies>
 
+=======
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>3.0-alpha-1</version>
+		</dependency>
+
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
 			<artifactId>jboss-servlet-api_3.1_spec</artifactId>

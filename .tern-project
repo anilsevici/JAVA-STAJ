@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"ide":{},"libs":["ecma5","browser"],"plugins":{"guess-types":{},"angular":{}}}
+=======
+{"libs":["browser","ecma5"],"ide":{}}
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
