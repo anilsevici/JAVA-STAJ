@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
   <fixed facet="java"/>
   <fixed facet="jst.web"/>
   <fixed facet="wst.jsdt.web"/>
   <installed facet="java" version="1.8"/>
   <installed facet="jst.web" version="3.0"/>
   <installed facet="wst.jsdt.web" version="1.0"/>
+<<<<<<< HEAD
+=======
+=======
+  <fixed facet="jst.web"/>
+  <fixed facet="java"/>
+  <fixed facet="wst.jsdt.web"/>
+  <installed facet="java" version="1.8"/>
+  <installed facet="wst.jsdt.web" version="1.0"/>
+  <installed facet="jst.web" version="3.1"/>
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 </faceted-project>

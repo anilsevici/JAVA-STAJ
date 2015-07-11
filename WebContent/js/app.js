@@ -1,5 +1,13 @@
 var app = angular.module("app", [ "ui.router", "ui.bootstrap",
+<<<<<<< HEAD
 		"ui.bootstrap.datetimepicker", "ngCookies" ]);
+=======
+<<<<<<< HEAD
+		"ui.bootstrap.datetimepicker", "ngCookies" ]);
+=======
+		"ui.bootstrap.datetimepicker" ]);
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 app.config([ '$stateProvider', '$urlRouterProvider', '$locationProvider',
 		function($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -25,7 +33,15 @@ app.config([ '$stateProvider', '$urlRouterProvider', '$locationProvider',
 app
 		.factory(
 				'AuthService',
+<<<<<<< HEAD
 				function($http, $q, $cookies, Session) {
+=======
+<<<<<<< HEAD
+				function($http, $q, $cookies, Session) {
+=======
+				function($http, $q, Session) {
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 					var login = function(credentials) {
 						var def = $q.defer();
 						$http(
@@ -40,7 +56,17 @@ app
 									}
 								}).success(
 								function(data, status, headers, config) {
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+									Session.create(data.auth, data.username);
+									def.resolve(data.username);
+									return data.username;
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 								}).error(function(error) {
 							// called asynchronously if an error occurs
 							// or server returns response with an error status.
@@ -49,11 +75,21 @@ app
 						return def.promise;
 					};
 					var isAuthenticated = function() {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 						return $cookies.get('name');
 					};
 
 					var getUsername = function() {
 						return $cookies.get('name');
+<<<<<<< HEAD
+=======
+=======
+						return Session.auth;
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 					};
 
 					var logout = function() {
@@ -64,8 +100,17 @@ app
 					return {
 						login : login,
 						isAuthenticated : isAuthenticated,
+<<<<<<< HEAD
 						logout : logout,
 						getUsername : getUsername
+=======
+<<<<<<< HEAD
+						logout : logout,
+						getUsername : getUsername
+=======
+						logout : logout
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 					};
 
 				});
@@ -105,6 +150,13 @@ app.controller('IlanCtrl', function($scope, $http) {
 		title : '',
 		definition : '',
 		description : '',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 		aktif : '',
 		pasif : '',
 
@@ -116,11 +168,27 @@ app.controller('IlanCtrl', function($scope, $http) {
 
 	$scope.setilanDate2 = function(value) {
 		$scope.ilan.pasif = value.toLocaleString();
+<<<<<<< HEAD
 		date: ''
+=======
+<<<<<<< HEAD
+		date: ''
+=======
+=======
+		date : ''
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 	};
 
 	$scope.setilanDate = function(value) {
 		$scope.ilan.date = value;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 	};
 
 	$scope.saveilan = function(ilan) {
@@ -147,9 +215,22 @@ app.controller('DateTimePickerDemoCtrl',
 		function($scope, $timeout) {
 			$scope.dateTimeNow = function() {
 				$scope.date = new Date();
+<<<<<<< HEAD
 
 				$scope.date2 = new Date();
 
+=======
+<<<<<<< HEAD
+
+				$scope.date2 = new Date();
+
+=======
+<<<<<<< HEAD
+				$scope.date2 = new Date();
+=======
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 			};
 			$scope.dateTimeNow();
 
@@ -190,6 +271,13 @@ app.controller('DateTimePickerDemoCtrl',
 				$scope.setilanDate(value);
 			}, true);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 			$scope.$watch("date2", function(value) {
 				console.log('New date value:' + value);
 				$scope.setilanDate2(value);
@@ -238,6 +326,19 @@ app.controller('HomeCtrl', function($scope, $http, $timeout) {
 
 });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+			$scope.resetHours = function() {
+				$scope.date.setHours(1);
+			};
+		});
+
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 app.controller('AppCtrl', function($scope, AuthService) {
 	$scope.currentUsername = null;
 	$scope.isAuthenticated = AuthService.isAuthenticated;
@@ -250,5 +351,16 @@ app.controller('AppCtrl', function($scope, AuthService) {
 	$scope.logout = function() {
 		AuthService.logout();
 	}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+	
+=======
+>>>>>>> 563ac6592ff9836ed1454ad2073e1e98bdde2ff0
+>>>>>>> a5476f38356b4df26496c3a2ef92581e5ee8f624
+>>>>>>> ae409cfafe1cdbcb689768c903f62cdf928203df
 });
