@@ -22,13 +22,15 @@ public class LinkedlnAccounting {
 	private Response info;
 
 	public void connect(String ouath_verifier) {
-		info=ouathrequest(ouath_verifier);
+		info = ouathrequest(ouath_verifier);
 
 	}
 
 	private OAuthService serviceconfig() {
 		service = new ServiceBuilder().provider(LinkedInApi.class)
-				.apiKey(linkedinKey).apiSecret(linkedinSecret).build();
+				.apiKey(linkedinKey).apiSecret(linkedinSecret)
+				.callback("http://localhost:8080/kariyerweb/index.html")
+				.build();
 
 		return service;
 	}
@@ -75,10 +77,10 @@ public class LinkedlnAccounting {
 
 		return request.send();
 	}
-	
-	public JsonObject getinformationuser(){
-		JsonParser jsonparser= new JsonParser();
-		return (JsonObject)jsonparser.parse(info.getBody());
+
+	public JsonObject getinformationuser() {
+		JsonParser jsonparser = new JsonParser();
+		return (JsonObject) jsonparser.parse(info.getBody());
 	}
 
 }

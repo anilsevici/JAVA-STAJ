@@ -3,11 +3,9 @@
 </head>
 
 
-
 <div class="container" ng-controller="HomeCtrl">
 
 	<h3>ILANLAR</h3>
-
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -15,12 +13,13 @@
 				<th scope="col">Summary</th>
 				<th scope="col">Aktif</th>
 				<th scope="col">Pasif</th>
+				<th scope="col">Ilana Git</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="ilan in ilanlar">
 				<td>
-					<button class="btn">	
+					<button class="btn" ng-click="basvurukaydet($index)">
 						<span class="glyphicon glyphicon-pencil"></span>  Choose ME!!
 					</button>
 				</td>
@@ -45,6 +44,11 @@
 				</th>
 				<td>{{ ilan.aktif }}</td>
 				<td>{{ilan.pasif }}</td>
+				<td><a ui-sref="ilan">
+						<button class="btn" ng-click="ilanagit($index)">
+							<span class="glyphicon glyphicon-pencil"></span> ILANA GIT!!!
+						</button>
+				</a></td>
 			</tr>
 		</tbody>
 	</table>

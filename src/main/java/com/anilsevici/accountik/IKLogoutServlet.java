@@ -9,22 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.omg.CORBA.RepositoryIdHelper;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 /**
- * Servlet implementation class IKServlet
+ * Servlet implementation class IKLogoutServlet
  */
-@WebServlet("/IKServlet")
-public class IKServlet extends HttpServlet {
+@WebServlet("/IKLogoutServlet")
+public class IKLogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IKServlet() {
+	public IKLogoutServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -36,6 +31,9 @@ public class IKServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Cookie ck = new Cookie("name", "");
+		ck.setMaxAge(0);
+		response.addCookie(ck);
 	}
 
 	/**
@@ -45,24 +43,6 @@ public class IKServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String data = request.getParameter("user");
-
-		JsonParser parser = new JsonParser();
-		JsonObject joUser = parser.parse(data).getAsJsonObject();
-
-		String name = joUser.get("username").getAsString();
-		String password = joUser.get("password").getAsString();
-
-		LdapAccounting con = new LdapAccounting(name, password);
-
-		try {
-			con.connect();
-			Cookie ck = new Cookie("name", name);
-			response.addCookie(ck);
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		}
-
 	}
 
 }

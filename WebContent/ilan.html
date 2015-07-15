@@ -3,103 +3,44 @@
 </head>
 
 
-<div id="container" ng-controller="IlanCtrl">
-	<div class="row">
-		<div class="col-md-4">
-			<h3>Create New Job:</h3>
+<div id="container" ng-controller=IlanGıtCtrl>
+	<h2>
+		<span class="green-text text-accent-3">{{ilan.title}}</span>
+	</h2>
 
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Ilan Kodu:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="ilan.ilanid" placeholder="Ilan Kodu">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Ilan Baslik:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="ilan.title" placeholder="Ilan Baslık">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Is Tanimi:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="ilan.definition"
-							placeholder="İş Tanımı">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Beklenen Ozellikler:</label>
-					<div class="col-sm-10">
-						<input type="text" ng-model="ilan.description"
-							placeholder="Beklenen Ozellikler">
-					</div>
-				</div>
-				<hr>
-				<button class="btn btn-success" ng-click="saveilan(ilan)">
-					<span class="glyphicon glyphicon-save"></span>Save Changes
-				</button>
-
-				<div class="alert alert-success">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					<strong>Success!</strong> This alert box could indicate a
-					successful or positive action.
-				</div>
-			</form>
-		</div>
-
-		<div ng-controller="DateTimePickerDemoCtrl" class="col-md-8">
-
-			<br>
-			<pre>Selected time and date is: <em>{{date | date:'shortTime' }}, {{date | date:'fullDate' }}</em>
-			</pre>
-
-
-			<h1>İlan Yayınlama Tarihi</h1>
-
-
-			<datetimepicker min-date="minDate" show-weeks="showWeeks"
-				hour-step="hourStep" minute-step="minuteStep" ng-model="date"
-				show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-				date-options="dateOptions" date-disabled="disabled(date, mode)"
-				readonly-date="false" readonly-time="false"></datetimepicker>
-			<hr>
-
-
-			<h1>İlan Kapanma Tarihi</h1>
-			<datetimepicker min-date="minDate" show-weeks="showWeeks"
-				hour-step="hourStep" minute-step="minuteStep" ng-model="date2"
-				show-meridian="showMeridian" date-format="dd-MMM-yyyy"
-				date-options="dateOptions" date-disabled="disabled(date, mode)"
-				readonly-date="false" readonly-time="false"></datetimepicker>
-			<hr>
-
-			<div class="form-group">
-				<button class="btn btn-default btn-sm" ng-click="dateTimeNow()"
-					tooltip="Set date and time to now">Now</button>
-				<button class="btn btn-default btn-sm" ng-click="toggleMinDate()"
-					tooltip="After today restriction">Min date</button>
-				<button class="btn btn-default btn-sm" ng-click="timeToggleMode()">12H
-					/ 24H</button>
-				<button class="btn btn-default btn-sm" ng-click="resetHours()">Reset
-					hours</button>
-			</div>
-			<div class="row">
-				<div class="col-xs-2 col-sm-2">Hours&nbsp;step</div>
-				<div class="col-xs-3">
-					<select ng-model="hourStep" class="form-control"
-						ng-options="opt for opt in timeOptions.hourStep"></select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-2 col-sm-2">Minutes&nbsp;step</div>
-				<div class="col-xs-3">
-					<select ng-model="minuteStep" class="form-control"
-						ng-options="opt for opt in timeOptions.minuteStep"></select>
-				</div>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Ilan Tanımı:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{ilan.definition}}</p>
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Ilan Acıklama:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{ilan.description}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Ilan Aktif Zamanı:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{ilan.aktif}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Ilan Pasif Zamanı:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{ilan.pasif}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Is Depertmanı:</label>
+			<div class="col-sm-10">
+				<p class="form-control-static">{{ilan.tag}}</p>
+			</div>
+		</div>
+		<hr>
 
-	</div>
+	</form>
 </div>
 

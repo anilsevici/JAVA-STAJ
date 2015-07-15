@@ -8,6 +8,7 @@
 
 <title>KARİYER WEB</title>
 
+
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 
@@ -15,7 +16,7 @@
 
 </head>
 
-<body ng-controller="AppCtrl">
+<body ng-controller="AppCtrl" id="appBody">
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -34,12 +35,30 @@
 					<li class="active"><a ui-sref="home">Home</a></li>
 					<li><a ui-sref="about"">About</a></li>
 					<li><a ui-sref="contact">Contact Us</a></li>
-					<li ng-if="!isAuthenticated()"><a ui-sref=login>IK-Login</a></li>
+					<li ng-if="!isAuthenticated() && !loggedUser "><a
+						ui-sref=login>IK-Login</a></li>
 					<li ng-if="isAuthenticated()"><p class="navbar-btn">
-							<a href=home ng-click="logout()" class="btn btn-success">IK-Logout</a>
+							<a href=# ng-click="logout()" ui-sref=home
+								class="btn btn-success">IK-Logout</a>
 						</p></li>
 					<li ng-if="isAuthenticated()"><a href=#>IK-Logged in as
 							{{currentUsername}} </a></li>
+
+					<li ng-if="isAuthenticated()"><a ui-sref=createjob>IK-CREATE
+							NEW JOB </a></li>
+
+					<li ng-if="!loggedUser && !isAuthenticated()"><a href=#
+						ng-click="signli()"><img src="images/sign-in.png"></a></li>
+
+					<li ng-if="loggedUser"><p class="navbar-btn">
+							<a href=# ng-click="logoutLinkedIn()" ui-sref=home
+								class="btn btn-success">Linkedln-Logout</a>
+					<li ng-hide="userprofile == null"><p class="navbar-btn">
+							<a ng-href="{{userprofile.publicProfileUrl}}" class="navbar-link">Welcome
+								,{{userprofile.firstName}} {{userprofile.lastName}}</a>
+						</p></li>
+
+
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -51,11 +70,25 @@
 </body>
 
 <script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/angular-ui-router.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/jquery-1.11.2.min"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.js"></script>
 <script type="text/javascript" src="js/datatimepicker.js"></script>
 <script type="text/javascript" src="js/angular-cookies.js"></script>
+<script type="text/javascript" src="js/ngStorage.min.js"></script>
+
+<script type="text/javascript" src="js/app.js"></script>
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+api_key: 7702ee2hazt424
+onLoad: onLinkedInLoad
+authorize: false
+</script>
+
+<script type="text/javascript" src="js/linkedln.js"></script>
+
+
+
 </html>

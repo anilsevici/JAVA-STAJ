@@ -28,3 +28,36 @@ thead th{
 thead th.first{
     text-align: left;
 }
+
+
+
+error-bucket{
+    display: none;
+}
+
+.error-notice{
+    background-color: #aa4646;
+    color: #fff;
+    border-radius: 5px;
+    padding: .6em 1em;
+}
+
+.has-error em.error {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #aa4646;
+    color: #fff;
+    padding: .6em 1em .4em;
+    font-size: .85em;
+    display: block;
+    width: 98%;
+    font-style: normal;
+}
+
+.has-error .form-control{
+    border-top-left-radius: 0px;
+}
+
+.required-star{
+    margin-bottom: 0.8em;
+}

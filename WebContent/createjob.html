@@ -1,72 +1,211 @@
-<h1>{{title}}</h1>
-<form name="createForm"  novalidate>
-    <p>All fields marked with an <img src="images/required.gif" alt="asterisk" class="required-star"> are required.</p>
-    <p id="error-bucket" class="error-notice" ng-show="createForm.$invalid"><img src="images/error.png" alt=""> Please correct the errors below.</p>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.summary.$invalid && submitted }">
-        <label for="summary">
-            Summary:
-            <img src="images/required.gif" alt="Required" class="required-star">
-            <em class="error">
-                <span class="error" ng-show="createForm.summary.$invalid && submitted">Must not be blank.</span>
-                <span class="error" ng-show="createForm.summary.$error.minlength && submitted">Summary needs to be at least 2 characters long.</span>
-            </em>
-        </label>
-        <input type="text"  id="summary"  name="summary" ng-model="summary" class="form-control" required  ng-minlength="2">
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.description.$invalid && submitted }">
-        <label for="description">
-            Description:
-            <img src="images/required.gif" alt="Required" class="required-star">
-            <em class="error">
-                <span class="error" ng-show="createForm.description.$invalid && submitted">Must not be blank.</span>
-            </em>
-        </label>
-        <textarea id="description"  name="description"  ng-model="description"  class="form-control" required ></textarea>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.wcagSC.$invalid && submitted }">
-        <label for="wcagSC">
-            WCAG success criterion:
-            <img src="images/required.gif" alt="Required" class="required-star">
-            <em class="error">
-                <span class="error" ng-show="createForm.wcagSC.$invalid && submitted">Must have a selection.</span>
-            </em>
-        </label>
-        <select  id="wcagSC" name="wcagSC" ng-model="wcagSC"  class="form-control" ng-options="wcagSC.value as wcagSC.criterion for wcagSC in wcagSCList" required >
-            <option value="">-- choose criterion --</option>
-        </select>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.severity.$invalid && submitted }">
-        <label for="severity">
-            Severity:
-            <img src="images/required.gif" alt="Required" class="required-star">
-            <em class="error">
-                <span class="error" ng-show="createForm.severity.$invalid && submitted">Must have a selection.</span>
-            </em>
-        </label>
-        <select id="severity" name="severity" ng-model="severity" class="form-control" ng-options="severity.value as severity.level for severity in severityList" required >
-            <option value="">-- choose Severity --</option>
-        </select>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.fix.$invalid && submitted }">
-        <label for="fix">
-            Recommended accessibility fix:
-            <img src="images/required.gif" alt="Required" class="required-star">
-            <em class="error">
-                <span class="error" ng-show="createForm.fix.$invalid && submitted">Must not be blank.</span>
-            </em>
-        </label>
-        <textarea id="fix" name="fix" ng-model="fix" class="form-control" required ></textarea>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : createForm.severity.$invalid && submitted }">
-        <label for="resolved">
-            Resolved:
-        </label>
-        <input id="resolved" name="resolved" type="checkbox" ng-model="resolved">
-    </div>
-    <div class="form-group">
-        <input type="button" value="Cancel" class="btn btn-primary" ng-click="go('main')">
+<head>
+<meta charset="utf-8">
+</head>
 
-        <!--  <button type="button" - stops form submission on general keyboard enter key -->
-        <button type="button" class="btn btn-primary" ng-click="add(createForm.$invalid)">Save</button>
-    </div>
-</form>
+<div id="container" ng-controller="IlanCtrl">
+
+	<h3>İlanlar</h3>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Edit</th>
+				<th>ilan Kod</th>
+				<th>İlan Title</th>
+				<th>Definition</th>
+				<th>Description</th>
+				<th>Aktif</th>
+				<th>Pasif</th>
+				<th>Tag</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ilan in ilanlar">
+				<td>
+					<button class="btn" ng-click="editilan($index)">
+						<span class="glyphicon glyphicon-pencil"></span>  Edit
+					</button>
+				</td>
+				<td>{{ ilan._id }}</td>
+				<td>{{ ilan.title }}</td>
+				<td>{{ ilan.definition }}</td>
+				<td>{{ ilan.description }}</td>
+				<td>{{ ilan.aktif }}</td>
+				<td>{{ ilan.pasif }}</td>
+				<td>{{ ilan.tag }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<hr>
+	<button class="btn btn-success" ng-click="editilan('new')">
+		<span class="glyphicon glyphicon-user"></span>  Create New JOB
+	</button>
+	<hr>
+
+	<h3 ng-show="edit">Create New JOB:</h3>
+	<h3 ng-hide="edit">Edit JOB:</h3>
+
+	<div class="row">
+		<div class="col-md-4">
+			<form name="createForm" class="form-horizontal" novalidate>
+				<p>
+					All fields marked with an <img src="images/required.gif"
+						alt="asterisk" class="required-star"> are required.
+				</p>
+				<p id="error-bucket" class="error-notice"
+					ng-show="createForm.$invalid">
+					<img src="images/error.png" alt=""> Please correct the errors
+					below.
+				</p>
+
+				<div class="form-group"
+					ng-class="{ 'has-error' : createForm.ilankod.$invalid && submitted }">
+					<label for="ilankod" class="col-sm-2 control-label"> İlan
+						Kodu: <img src="images/required.gif" alt="Required"
+						class="required-star"> <em class="error"> <span
+							class="error" ng-show="createForm.ilankod.$invalid && submitted">Must
+								not be blank.</span>
+					</em>
+					</label>
+					<div class="col-sm-10">
+						<input type="text" id="ilankod" name="ilankod"
+							ng-model="ilan._id" ng-disabled="!edit" class="form-control"
+							required>
+					</div>
+				</div>
+
+				<div class="form-group"
+					ng-class="{ 'has-error' : createForm.ilantitle.$invalid && submitted }">
+					<label for="ilantitle" class="col-sm-2 control-label"> İlan
+						Başlık: <img src="images/required.gif" alt="Required"
+						class="required-star"> <em class="error"> <span
+							class="error"
+							ng-show="createForm.ilantitle.$invalid && submitted">Must
+								not be blank.</span> <span class="error"
+							ng-show="createForm.ilantitle.$error.minlength && submitted">İlan
+								Title needs to be at least 2 characters long.</span>
+					</em>
+					</label>
+					<div class="col-sm-10">
+						<input type="text" id="ilantitle" name="ilantitle"
+							ng-model="ilan.title" class="form-control" required
+							ng-minlength="2">
+					</div>
+				</div>
+
+				<div class="form-group"
+					ng-class="{ 'has-error' : createForm.ilandefinition.$invalid && submitted }">
+					<label for="ilandefinition" class="col-sm-2 control-label">
+						iş Tanımı: <img src="images/required.gif" alt="Required"
+						class="required-star"> <em class="error"> <span
+							class="error"
+							ng-show="createForm.ilandefinition.$invalid && submitted">Must
+								not be blank.</span>
+					</em>
+					</label>
+					<div class="col-sm-10">
+						<textarea id="ilandefinition" name="ilandefinition"
+							ng-model="ilan.definition" class="form-control" required></textarea>
+					</div>
+				</div>
+
+				<div class="form-group"
+					ng-class="{ 'has-error' : createForm.ilandescription.$invalid && submitted }">
+					<label for="ilandescription" class="col-sm-2 control-label">
+						Beklenen Özellikler: <img src="images/required.gif" alt="Required"
+						class="required-star"> <em class="error"> <span
+							class="error"
+							ng-show="createForm.ilandescription.$invalid && submitted">Must
+								not be blank.</span>
+					</em>
+					</label>
+					<div class="col-sm-10">
+						<textarea id="ilandescription" name="ilandescription"
+							ng-model="ilan.description" class="form-control" required></textarea>
+					</div>
+				</div>
+
+				<div class="form-group"
+					ng-class="{ 'has-error' : createForm.ilantag.$invalid && submitted }">
+					<label for="ilantag" class="col-sm-2 control-label"> Tag
+						sec: <img src="images/required.gif" alt="Required"
+						class="required-star"> <em class="error"> <span
+							class="error" ng-show="createForm.ilantag.$invalid && submitted">Must
+								have a selection.</span>
+					</em>
+					</label>
+					<div class="col-sm-10">
+						<select id="ilantag" name="ilantag" ng-model="ilan.tag"
+							class="form-control"
+							ng-options="ilantag.value as ilantag.criterion for ilantag in ilantagList"
+							required>
+							<option value="">-- choose tag --</option>
+						</select>
+					</div>
+				</div>
+
+
+				<button type="button" class="btn btn-success"
+					ng-click="saveilan(ilan,createForm.$invalid)">
+					<span class="glyphicon glyphicon-save"></span>Save
+				</button>
+
+			</form>
+		</div>
+
+
+
+		<div class="col-md-8" ng-controller="DateTimePickerDemoCtrl">
+
+			<br>
+			<pre>Selected time and date is: <em>{{date | date:'shortTime' }}, {{date | date:'fullDate' }}</em>
+			</pre>
+
+
+			<h1>İlan Yayınlama Tarihi</h1>
+
+
+			<datetimepicker min-date="minDate" show-weeks="showWeeks"
+				hour-step="hourStep" minute-step="minuteStep" ng-model="date"
+				show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+				date-options="dateOptions" date-disabled="disabled(date, mode)"
+				readonly-date="false" readonly-time="false"></datetimepicker>
+			<hr>
+
+
+			<h1>İlan Kapanma Tarihi</h1>
+			<datetimepicker min-date="minDate" show-weeks="showWeeks"
+				hour-step="hourStep" minute-step="minuteStep" ng-model="date2"
+				show-meridian="showMeridian" date-format="dd-MMM-yyyy"
+				date-options="dateOptions" date-disabled="disabled(date, mode)"
+				readonly-date="false" readonly-time="false"></datetimepicker>
+			<hr>
+
+			<div class="form-group">
+				<button class="btn btn-default btn-sm" ng-click="dateTimeNow()"
+					tooltip="Set date and time to now">Now</button>
+				<button class="btn btn-default btn-sm" ng-click="toggleMinDate()"
+					tooltip="After today restriction">Min date</button>
+				<button class="btn btn-default btn-sm" ng-click="timeToggleMode()">12H
+					/ 24H</button>
+				<button class="btn btn-default btn-sm" ng-click="resetHours()">Reset
+					hours</button>
+			</div>
+			<div class="row">
+				<div class="col-xs-2 col-sm-2">Hours&nbsp;step</div>
+				<div class="col-xs-3">
+					<select ng-model="hourStep" class="form-control"
+						ng-options="opt for opt in timeOptions.hourStep"></select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-2 col-sm-2">Minutes&nbsp;step</div>
+				<div class="col-xs-3">
+					<select ng-model="minuteStep" class="form-control"
+						ng-options="opt for opt in timeOptions.minuteStep"></select>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

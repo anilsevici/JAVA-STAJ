@@ -8,6 +8,7 @@ import com.mongodb.BasicDBObject;
 public class Parser {
 
 	private String data;
+	private String ilan_id;
 
 	public Parser(String data) {
 		this.data = data;
@@ -23,21 +24,26 @@ public class Parser {
 	public BasicDBObject addObject() {
 		JsonObject object = parseinit(data);
 
-		String ilan_id = object.get("ilanid").getAsString();
+		ilan_id = object.get("_id").getAsString();
 		String title = object.get("title").getAsString();
 		String def = object.get("definition").getAsString();
 		String des = object.get("description").getAsString();
 		String date = object.get("aktif").getAsString();
 		String date2 = object.get("pasif").getAsString();
-		
+		String tag = object.get("tag").getAsString();
 
 		BasicDBObject ilan = new BasicDBObject();
 		ilan.append("_id", ilan_id).append("title", title)
 				.append("definition", def).append("description", des)
-				.append("aktif", date).append("pasif", date2).append("statu", false);
+				.append("aktif", date).append("pasif", date2)
+				.append("statu", false).append("tag", tag);
 
 		return ilan;
 
+	}
+
+	public String getIlan_id() {
+		return ilan_id;
 	}
 
 }

@@ -1,11 +1,25 @@
-  <div class="wrapper">
-    <form class="form-signin"  ng-controller="LoginCtrl">       
-      <h2 class="form-signin-heading">Please login</h2>
-      <input type="text" class="form-control" name="username"  ng-model="credentials.username" placeholder="Email Address"  required="" autofocus="" />
-      <input type="password" class="form-control" name="password" ng-model="credentials.password" placeholder="Password" required=""/>      
-      <label class="checkbox">
-        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
-      </label>
-      <button class="btn btn-lg btn-primary btn-block" type="submit"  ng-click="login(credentials)">Login</button>   
-    </form>
-  </div>
+
+
+<head>
+<link href="css/login.css" rel="stylesheet">
+
+</head>
+
+<div class="container" ng-controller="LoginCtrl">
+	<div class="card card-container">
+		<img id="profile-img" class="profile-img-card"
+			src="images/avatar_2x.png" />
+		<p id="profile-name" class="profile-name-card"></p>
+		<form class="form-signin">
+			<span id="reauth-email" class="reauth-email"></span> <input
+				type="text" id="inputEmail" class="form-control"
+				ng-model="credentials.username" placeholder="User Name" required
+				autofocus> <input type="password" id="inputPassword"
+				class="form-control" ng-model="credentials.password"
+				placeholder="Password" required>
+
+			<button class="btn btn-lg btn-primary btn-block btn-signin"
+				ng-click="login(credentials)" type="submit">Login</button>
+		</form>
+	</div>
+</div>

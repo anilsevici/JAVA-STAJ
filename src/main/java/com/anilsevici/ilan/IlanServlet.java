@@ -1,8 +1,10 @@
 package com.anilsevici.ilan;
 
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException.DuplicateKey;
 
 /**
  * Servlet implementation class IlanServlet
@@ -20,6 +23,7 @@ import com.mongodb.MongoClientURI;
 public class IlanServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final DBCollection ilancollection;
+	private final DBCollection hrcollection;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,6 +35,7 @@ public class IlanServlet extends HttpServlet {
 				"mongodb://localhost"));
 		final DB ilanDatabase = mongoClient.getDB("kariyer");
 		ilancollection = ilanDatabase.getCollection("ilan");
+		hrcollection = ilanDatabase.getCollection("hrilan");
 	}
 
 	/**
@@ -49,7 +54,36 @@ public class IlanServlet extends HttpServlet {
 			BasicDBObject ilan = parse.addObject();
 
 			ilancollection.insert(ilan);
+			inserthrilan(request, parse);
+
 		}
+	}
+
+	private void inserthrilan(HttpServletRequest request, Parser parse) {
+
+		String userId = null;
+		String ilanid = parse.getIlan_id();
+
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if ("name".equals(cookie.getName()))
+				userId = cookie.getValue();
+
+		}
+
+		BasicDBObject document = new BasicDBObject().append("_id", userId)
+				.append("ilanref", Arrays.asList(ilanid));
+
+		try {
+			hrcollection.insert(document);
+		} catch (DuplicateKey e) {
+			BasicDBObject list = new BasicDBObject().append("ilanref", ilanid);
+
+			BasicDBObject updateQuery = new BasicDBObject("$push", list);
+			BasicDBObject searchQuery = new BasicDBObject("_id", userId);
+			hrcollection.update(searchQuery, updateQuery);
+		}
+
 	}
 
 	/**
