@@ -1,0 +1,37 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+
+<div class="container" ng-controller="BasvuruCtrl">
+
+	<h3>Basvurularım</h3>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Ilan Gor</th>
+				<th>Title</th>
+				<th>Statu</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="basvuru in basvurular">
+				<td><a ui-sref="ilan">
+						<button class="btn" ng-click="goilan($index)">
+							<span class="glyphicon glyphicon-pencil"></span> GO ILAN!!!
+						</button>
+				</a></td>
+				<td>{{ basvuru.title }}</td>
+				<td>{{ basvuru.statu }}</td>
+				<td ng-hide='istemp'>
+					<button class="btn" ng-click="basvurucek(basvuru._id)">
+						<span class="glyphicon glyphicon-pencil"></span> BASVURU CEK!!!
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<hr>
+</div>

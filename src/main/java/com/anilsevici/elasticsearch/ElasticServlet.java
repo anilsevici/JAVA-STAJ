@@ -1,8 +1,6 @@
-package com.anilsevici.ilan;
+package com.anilsevici.elasticsearch;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,32 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.anilsevici.mongodb.MongoDbUtils;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
- * Servlet implementation class IlanGorServlet
+ * Servlet implementation class ElasticServlet
  */
-@WebServlet("/IlanGorServlet")
-public class IlanGorServlet extends HttpServlet {
+@WebServlet("/ElasticServlet")
+public class ElasticServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final DBCollection ilancollection;
 
 	/**
-	 * @throws UnknownHostException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IlanGorServlet() throws UnknownHostException {
+	public ElasticServlet() {
 		super();
-		ilancollection = MongoDbUtils.getIlanCollection();
-
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -44,19 +31,11 @@ public class IlanGorServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String label = request.getParameter("label");
+		JsonArray users = ElasticSearchUtils.findUserDocument(label);
 
-		BasicDBObject query = new BasicDBObject("statu", true);
-		DBCursor cursor = ilancollection.find(query);
-		List<DBObject> ilanlar = cursor.toArray();
-
-		Gson gson = new Gson();
-		JsonElement element = gson.toJsonTree(ilanlar,
-				new TypeToken<List<DBObject>>() {
-				}.getType());
-		JsonArray jsonArray = element.getAsJsonArray();
-
-		writeResponse(response, jsonArray.toString());
-
+		writeResponse(response, users.toString());
 	}
 
 	/**

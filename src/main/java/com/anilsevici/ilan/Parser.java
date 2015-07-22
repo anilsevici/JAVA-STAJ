@@ -8,13 +8,12 @@ import com.mongodb.BasicDBObject;
 public class Parser {
 
 	private String data;
-	private String ilan_id;
 
 	public Parser(String data) {
 		this.data = data;
 	}
 
-	private JsonObject parseinit(String data) {
+	public JsonObject parseinit(String data) {
 		JsonElement parser = new JsonParser().parse(data);
 		JsonObject joUser = parser.getAsJsonObject();
 
@@ -24,7 +23,7 @@ public class Parser {
 	public BasicDBObject addObject() {
 		JsonObject object = parseinit(data);
 
-		ilan_id = object.get("_id").getAsString();
+		String ilan_id = object.get("_id").getAsString();
 		String title = object.get("title").getAsString();
 		String def = object.get("definition").getAsString();
 		String des = object.get("description").getAsString();
@@ -36,14 +35,11 @@ public class Parser {
 		ilan.append("_id", ilan_id).append("title", title)
 				.append("definition", def).append("description", des)
 				.append("aktif", date).append("pasif", date2)
-				.append("statu", false).append("tag", tag);
+				.append("statu", false).append("publish", true).append("tag", tag);
 
 		return ilan;
 
 	}
 
-	public String getIlan_id() {
-		return ilan_id;
-	}
 
 }

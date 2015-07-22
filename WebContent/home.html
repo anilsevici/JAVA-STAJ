@@ -2,14 +2,31 @@
 <meta charset="utf-8">
 </head>
 
+<style>
+.arc path {
+	stroke: #fff;
+}
+</style>
 
-<div class="container" ng-controller="HomeCtrl">
+<div class="container" id="piechart" g-controller="HomeCtrl">
 
 	<h3>ILANLAR</h3>
+
+	<div id="ticket-filter-box">
+		<label for="ticket-filter">Search Ilanlar: </label> <input type="text"
+			id="ticket-filter" ng-model="search" class="search-query"
+			placeholder="Search">
+		<div role="status" id="ticket-table-info" aria-live="polite"
+			aria-atomic="true">Showing {{(ilanlar|filter:search).length}}
+			of {{ilanlar.length}}</div>
+	</div>
+
+
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th scope="col" class="first">Basvuru</th>
+				<th scope="col">Tag</th>
 				<th scope="col">Summary</th>
 				<th scope="col">Aktif</th>
 				<th scope="col">Pasif</th>
@@ -17,19 +34,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="ilan in ilanlar">
+			<tr ng-repeat="ilan in ilanlar | filter:search">
 				<td>
 					<button class="btn" ng-click="basvurukaydet($index)">
 						<span class="glyphicon glyphicon-pencil"></span>  Choose ME!!
 					</button>
 				</td>
 
+				<td>{{ ilan.tag }}</td>
+
 				<th scope="row" ng-class="{showdetails:index==$index}"
 					id="ilan-{{$index}}">
 					<h3>
 						<a href="#expandDetails-{{ ilan.$id }}"
 							ng-click="toggleIlanDetails($event,$index)"> <span
-							class="-{{ index==$index ? 'minus' : 'plus' }}-sign"
+							class="glyphicon glyphicon-{{ index==$index ? 'minus' : 'plus' }}-sign"
 							aria-hidden="true"></span> {{ ilan.title }} <span
 							class="visuallyhidden">{{ index==$index ? " - click to
 								hide details" : " - click to show details"}}</span>

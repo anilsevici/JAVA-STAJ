@@ -1,0 +1,39 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+
+<div id="container" ng-controller="ElasticCtrl">
+
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Search in Profiles:</label>
+		<div class="col-sm-10">
+			<input type="text" ng-model="label" ng-change="change()">
+		</div>
+	</div>
+
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>industry</th>
+				<th>Ad</th>
+				<th>Soyad</th>
+				<th>Location</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users">
+
+				<td>{{ user.industry }}</td>
+				<td>{{ user.firstName }}</td>
+				<td>{{ user.lastName }}</td>
+				<td>{{ user.location }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</div>
+

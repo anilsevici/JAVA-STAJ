@@ -1,0 +1,152 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<div id="container" ng-controller="IKGoruntuleCtrl">
+
+	<h3>İlanlar</h3>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Statu Filter</th>
+				<th>Bekleme</th>
+				<th>Kabul</th>
+				<th>Red</th>
+				<th>Tag</th>
+				<th>Title</th>
+				<th>Aktif</th>
+				<th>Pasif</th>
+				<th>Basvuru Görüntüle</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="ilan in ilanlar">
+				<td>
+					<button class="btn"
+						ng-click="statufilter(ilan._id,statufilter[$index].statu)">
+						<span class="glyphicon glyphicon-pencil"></span>  Statu Filter
+					</button>
+				</td>
+
+				<td><input type="radio" value="bekleme"
+					ng-model="statufilter[$index].statu" /> Bekleme</td>
+
+				<td><input type="radio" value="kabul"
+					ng-model="statufilter[$index].statu" /> Kabul</td>
+
+				<td><input type="radio" value="red"
+					ng-model="statufilter[$index].statu" /> Red</td>
+
+				<td>{{ ilan.tag }}</td>
+				<td>{{ ilan.title }}</td>
+				<td>{{ ilan.aktif }}</td>
+				<td>{{ ilan.pasif }}</td>
+
+				<td>
+					<button class="btn" ng-click="ilanbasvurugoruntule(ilan._id)">
+						<span class="glyphicon glyphicon-pencil"></span>  Basvuru
+						Görüntüle
+					</button>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>KARA LISTE SEBEP</p>
+	<textarea ng-model="blackcontent"></textarea>
+
+
+	<div class="row">
+		<div class="col-md-6">
+
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Diger Ilanlar</th>
+						<th>Profile</th>
+						<th>Ad</th>
+						<th>Soyad</th>
+						<th>Email</th>
+						<th>Kabul</th>
+						<th>Red</th>
+						<th>Onayla</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="basvuru in basvuranlar">
+						<td><a ui-sref="basvuru">
+								<button class="btn" ng-click="other(basvuru._id)">
+									<span class="glyphicon glyphicon-pencil"></span>  Diger
+									Ilanları Gor
+								</button>
+						</a></td>
+
+						<td><a ui-sref="profil">
+								<button class="btn" ng-click="details(basvuru._id)">
+									<span class="glyphicon glyphicon-pencil"></span>  GO PROFILE!!!
+								</button>
+						</a></td>
+
+						<td>{{ basvuru.firstName }}</td>
+						<td>{{ basvuru.lastName }}</td>
+						<td>{{ basvuru.emailAddress }}</td>
+
+						<td><input type="radio" ng-value="true"
+							ng-model="durumlar[$index].apply" /> Kabul</td>
+
+						<td><input type="radio" ng-value="false"
+							ng-model="durumlar[$index].apply" /> Red</td>
+
+
+						<td>
+							<button class="btn"
+								ng-click="ilanonay(basvuru._id,durumlar[$index].apply,basvuru.emailAddress)">
+								<span class="glyphicon glyphicon-pencil"></span>  Apply Basvuru
+							</button>
+						</td>
+
+						<td>
+							<button class="btn"
+								ng-click="getblacklist(basvuru._id,basvuru.emailAddress,blacklist)">
+								<span class="glyphicon glyphicon-pencil"></span>  KARA LISTE AL
+							</button>
+						</td>
+
+						<td><input type="checkbox" ng-model="blacklist" />BLACKLIST</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+
+		<div class="col-md-6">
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Ad</th>
+						<th>Soyad</th>
+						<th>Email</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="statu in forstatu">
+
+
+						<td>{{ statu.firstName }}</td>
+						<td>{{ statu.lastName }}</td>
+						<td>{{ statu.emailAddress }}</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-package com.anilsevici.ilan;
+package com.anilsevici.ikgoruntuleme;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -17,25 +17,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * Servlet implementation class IlanGorServlet
+ * Servlet implementation class IlanaBasvuruServlet
  */
-@WebServlet("/IlanGorServlet")
-public class IlanGorServlet extends HttpServlet {
+@WebServlet("/IlanaBasvuruServlet")
+public class IlanaBasvuruServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final DBCollection ilancollection;
+	private final DBCollection usercollection;
 
 	/**
 	 * @throws UnknownHostException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IlanGorServlet() throws UnknownHostException {
+	public IlanaBasvuruServlet() throws UnknownHostException {
 		super();
-		ilancollection = MongoDbUtils.getIlanCollection();
 
+		usercollection = MongoDbUtils.getUserCollection();
 	}
 
 	/**
@@ -44,19 +43,22 @@ public class IlanGorServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String ilanno = request.getParameter("ilanid");
 
-		BasicDBObject query = new BasicDBObject("statu", true);
-		DBCursor cursor = ilancollection.find(query);
-		List<DBObject> ilanlar = cursor.toArray();
+		BasicDBObject searchquery = new BasicDBObject().append("basvurular",
+				new BasicDBObject().append("$elemMatch", new BasicDBObject()
+						.append("statu", "bekleme").append("ilanno", ilanno)));
+
+		List<DBObject> users = usercollection.find(searchquery).toArray();
 
 		Gson gson = new Gson();
-		JsonElement element = gson.toJsonTree(ilanlar,
+		JsonElement element = gson.toJsonTree(users,
 				new TypeToken<List<DBObject>>() {
 				}.getType());
 		JsonArray jsonArray = element.getAsJsonArray();
 
 		writeResponse(response, jsonArray.toString());
-
 	}
 
 	/**

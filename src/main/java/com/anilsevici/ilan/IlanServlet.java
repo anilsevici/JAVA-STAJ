@@ -2,6 +2,7 @@ package com.anilsevici.ilan;
 
 import java.io.IOException;
 import java.util.Arrays;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -9,11 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.anilsevici.mongodb.MongoDbUtils;
+import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException.DuplicateKey;
 
 /**
@@ -31,11 +31,9 @@ public class IlanServlet extends HttpServlet {
 	public IlanServlet() throws IOException {
 		super();
 		// TODO Auto-generated constructor stub
-		final MongoClient mongoClient = new MongoClient(new MongoClientURI(
-				"mongodb://localhost"));
-		final DB ilanDatabase = mongoClient.getDB("kariyer");
-		ilancollection = ilanDatabase.getCollection("ilan");
-		hrcollection = ilanDatabase.getCollection("hrilan");
+
+		ilancollection = MongoDbUtils.getIlanCollection();
+		hrcollection = MongoDbUtils.getHrIlanCollection();
 	}
 
 	/**
@@ -46,23 +44,60 @@ public class IlanServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String data = request.getParameter("ilan");
-		System.out.println(data);
+		String data2 = request.getParameter("edit");
+		Parser parse = new Parser(data);
 
-		if (data != null) {
+		if (data2.equals("true")) {
 
-			Parser parse = new Parser(data);
 			BasicDBObject ilan = parse.addObject();
 
-			ilancollection.insert(ilan);
-			inserthrilan(request, parse);
+			try {
+				ilancollection.insert(ilan);
+				inserthrilan(request, parse, data);
+			} catch (DuplicateKey e) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			}
 
+		} else {
+			JsonObject ilan = parse.parseinit(data);
+
+			BasicDBObject newdoc = new BasicDBObject();
+			BasicDBObject fieldset = new BasicDBObject();
+
+			fieldset.append("title", ilan.get("title").getAsString());
+			fieldset.append("definition", ilan.get("definition").getAsString());
+			fieldset.append("description", ilan.get("description")
+					.getAsString());
+			fieldset.append("aktif", ilan.get("aktif").getAsString());
+			fieldset.append("pasif", ilan.get("pasif").getAsString());
+			fieldset.append("tag", ilan.get("tag").getAsString());
+
+			BasicDBObject searchQuery = new BasicDBObject().append("_id", ilan
+					.get("_id").getAsString());
+
+			if (request.getParameter("aktif").equals("true")) {
+				fieldset.append("publish", true);
+				fieldset.append("statu", false);
+			}
+
+			if (request.getParameter("pasif").equals("true")) {
+
+				fieldset.append("publish", false);
+				fieldset.append("statu", false);
+			}
+
+			newdoc.append("$set", fieldset);
+
+			ilancollection.update(searchQuery, newdoc);
 		}
 	}
 
-	private void inserthrilan(HttpServletRequest request, Parser parse) {
+	private void inserthrilan(HttpServletRequest request, Parser parse,
+			String data) {
 
 		String userId = null;
-		String ilanid = parse.getIlan_id();
+		JsonObject ilan = parse.parseinit(data);
+		String ilanid = ilan.get("_id").getAsString();
 
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {

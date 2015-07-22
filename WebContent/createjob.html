@@ -10,6 +10,7 @@
 		<thead>
 			<tr>
 				<th>Edit</th>
+				<th>Durum</th>
 				<th>ilan Kod</th>
 				<th>İlan Title</th>
 				<th>Definition</th>
@@ -26,6 +27,9 @@
 						<span class="glyphicon glyphicon-pencil"></span>  Edit
 					</button>
 				</td>
+
+				<td ng-show="ilan.publish">Yayında</td>
+				<td ng-hide="ilan.publish">Pasif</td>
 				<td>{{ ilan._id }}</td>
 				<td>{{ ilan.title }}</td>
 				<td>{{ ilan.definition }}</td>
@@ -54,7 +58,7 @@
 						alt="asterisk" class="required-star"> are required.
 				</p>
 				<p id="error-bucket" class="error-notice"
-					ng-show="createForm.$invalid">
+					ng-show="createForm.$invalid && submitted">
 					<img src="images/error.png" alt=""> Please correct the errors
 					below.
 				</p>
@@ -69,9 +73,8 @@
 					</em>
 					</label>
 					<div class="col-sm-10">
-						<input type="text" id="ilankod" name="ilankod"
-							ng-model="ilan._id" ng-disabled="!edit" class="form-control"
-							required>
+						<input type="text" id="ilankod" name="ilankod" ng-model="ilan._id"
+							ng-disabled="!edit" class="form-control" required>
 					</div>
 				</div>
 
@@ -145,18 +148,37 @@
 					</div>
 				</div>
 
+				<div class="col-sm-10" ng-hide="edit" style="color: white">
+					<p ng-show="ilan.publish">
+						<input type="checkbox" ng-model="pasif">Pasif YAP
+					</p>
+
+					<p ng-show="!ilan.publish" style="color: white">
+						<input type="checkbox" ng-model="aktif">Aktif YAP
+					</p>
+
+				</div>
+
 
 				<button type="button" class="btn btn-success"
 					ng-click="saveilan(ilan,createForm.$invalid)">
 					<span class="glyphicon glyphicon-save"></span>Save
 				</button>
 
+
+				<hr>
+				<div class="alert alert-success" ng-show="success">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Success!</strong> İlan Başarı ile Kaydedildi.
+				</div>
+
 			</form>
 		</div>
 
 
 
-		<div class="col-md-8" ng-controller="DateTimePickerDemoCtrl">
+		<div class="col-md-8" ng-controller="DateTimePickerDemoCtrl"
+			ng-hide="pasif">
 
 			<br>
 			<pre>Selected time and date is: <em>{{date | date:'shortTime' }}, {{date | date:'fullDate' }}</em>

@@ -1,8 +1,7 @@
-package com.anilsevici.ilan;
+package com.anilsevici.linkedlnaccount;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,30 +11,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.anilsevici.mongodb.MongoDbUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * Servlet implementation class IlanGorServlet
+ * Servlet implementation class ProfileServlet
  */
-@WebServlet("/IlanGorServlet")
-public class IlanGorServlet extends HttpServlet {
+@WebServlet("/ProfileServlet")
+public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final DBCollection ilancollection;
+	private final DBCollection usercollection;
 
 	/**
 	 * @throws UnknownHostException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IlanGorServlet() throws UnknownHostException {
+	public ProfileServlet() throws UnknownHostException {
 		super();
-		ilancollection = MongoDbUtils.getIlanCollection();
-
+		usercollection = MongoDbUtils.getUserCollection();
 	}
 
 	/**
@@ -44,19 +40,7 @@ public class IlanGorServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		BasicDBObject query = new BasicDBObject("statu", true);
-		DBCursor cursor = ilancollection.find(query);
-		List<DBObject> ilanlar = cursor.toArray();
-
-		Gson gson = new Gson();
-		JsonElement element = gson.toJsonTree(ilanlar,
-				new TypeToken<List<DBObject>>() {
-				}.getType());
-		JsonArray jsonArray = element.getAsJsonArray();
-
-		writeResponse(response, jsonArray.toString());
-
+		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -66,6 +50,22 @@ public class IlanGorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String userid = request.getParameter("userid");
+		String tempid = request.getParameter("tempid");
+
+		if (userid == null)
+			userid = tempid;
+
+		BasicDBObject searchquery = new BasicDBObject().append("_id", userid);
+
+		DBCursor cur = usercollection.find(searchquery);
+		DBObject user = cur.next();
+
+		Gson gson = new Gson();
+		JsonObject u = gson.fromJson(user.toString(), JsonObject.class);
+
+		writeResponse(response, u.toString());
+
 	}
 
 	private void writeResponse(HttpServletResponse response, String result)

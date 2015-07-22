@@ -6,13 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
+import com.anilsevici.mongodb.MongoDbUtils;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 
 public class FetchJob implements Runnable {
 
@@ -20,11 +18,7 @@ public class FetchJob implements Runnable {
 
 	public FetchJob() throws UnknownHostException {
 
-		MongoClient mongoClient = new MongoClient(new MongoClientURI(
-				"mongodb://localhost"));
-		DB ilanDatabase = mongoClient.getDB("kariyer");
-		this.ilancollection = ilanDatabase.getCollection("ilan");
-
+		this.ilancollection = MongoDbUtils.getIlanCollection();
 	}
 
 	@Override
@@ -37,21 +31,43 @@ public class FetchJob implements Runnable {
 
 		while (ilaniterator.hasNext()) {
 			DBObject ilan = ilaniterator.next();
-			String date = ilan.get("aktif").toString();
+			boolean publish = (Boolean) ilan.get("publish");
 
-			DateTimeFormatter f = DateTimeFormatter
-					.ofPattern("dd.MM.yyyy HH:mm:ss");
-			LocalDateTime dateTime = LocalDateTime.from(f.parse(date));
+			if (publish) {
 
-			if (localNow.compareTo(dateTime) >= 0) {
-				BasicDBObject newDocument = new BasicDBObject();
-				newDocument.append("$set",
-						new BasicDBObject().append("statu", true));
+				String date = ilan.get("aktif").toString();
+				String date2 = ilan.get("pasif").toString();
 
-				BasicDBObject searchQuery = new BasicDBObject().append("aktif",
-						date);
+				DateTimeFormatter f = DateTimeFormatter
+						.ofPattern("dd.MM.yyyy HH:mm:ss");
+				LocalDateTime dateTime = LocalDateTime.from(f.parse(date));
+				LocalDateTime dateTime2 = LocalDateTime.from(f.parse(date2));
 
-				ilancollection.update(searchQuery, newDocument);
+				if (localNow.compareTo(dateTime) >= 0) {
+					BasicDBObject newDocument = new BasicDBObject();
+					newDocument.append("$set",
+							new BasicDBObject().append("statu", true));
+
+					BasicDBObject searchQuery = new BasicDBObject().append(
+							"aktif", date);
+
+					ilancollection.update(searchQuery, newDocument);
+				}
+
+				if (localNow.compareTo(dateTime2) >= 0) {
+					BasicDBObject newDocument = new BasicDBObject();
+					BasicDBObject fieldset = new BasicDBObject();
+
+					fieldset.append("statu", false);
+					fieldset.append("publish", false);
+
+					newDocument.append("$set", fieldset);
+
+					BasicDBObject searchQuery = new BasicDBObject().append(
+							"pasif", date2);
+
+					ilancollection.update(searchQuery, newDocument);
+				}
 			}
 		}
 

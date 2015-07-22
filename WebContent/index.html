@@ -6,6 +6,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<style type="text/css">
+body {
+	background-image: url("images/back.jpg");
+	background-size: cover;
+}
+</style>
 <title>KARİYER WEB</title>
 
 
@@ -35,7 +41,8 @@
 					<li class="active"><a ui-sref="home">Home</a></li>
 					<li><a ui-sref="about"">About</a></li>
 					<li><a ui-sref="contact">Contact Us</a></li>
-					<li ng-if="!isAuthenticated() && !loggedUser "><a
+
+					<li ng-if="!isAuthenticated() && !loggedUser() "><a
 						ui-sref=login>IK-Login</a></li>
 					<li ng-if="isAuthenticated()"><p class="navbar-btn">
 							<a href=# ng-click="logout()" ui-sref=home
@@ -47,16 +54,25 @@
 					<li ng-if="isAuthenticated()"><a ui-sref=createjob>IK-CREATE
 							NEW JOB </a></li>
 
-					<li ng-if="!loggedUser && !isAuthenticated()"><a href=#
+					<li ng-if="isAuthenticated()"><a ui-sref=ikgoruntule>IK-GORUNTULE
+					</a></li>
+
+					<li ng-if="isAuthenticated()"><a ui-sref=search>IK-SEARCH
+					</a></li>
+
+
+					<li ng-show="!loggedUser() && !isAuthenticated()"><a href=#
 						ng-click="signli()"><img src="images/sign-in.png"></a></li>
 
-					<li ng-if="loggedUser"><p class="navbar-btn">
+					<li ng-if="loggedUser()"><p class="navbar-btn">
 							<a href=# ng-click="logoutLinkedIn()" ui-sref=home
 								class="btn btn-success">Linkedln-Logout</a>
-					<li ng-hide="userprofile == null"><p class="navbar-btn">
-							<a ng-href="{{userprofile.publicProfileUrl}}" class="navbar-link">Welcome
-								,{{userprofile.firstName}} {{userprofile.lastName}}</a>
-						</p></li>
+					<li ng-if="loggedUser()"><a href=#>Welcome ,{{firstname}}
+							{{lastname}}</a></li>
+
+					<li ng-if="loggedUser()"><a ui-sref="profil"">Profilim</a></li>
+
+					<li ng-if="loggedUser()"><a ui-sref=basvuru>Basvurularım</a></li>
 
 
 				</ul>
@@ -72,12 +88,12 @@
 <script type="text/javascript" src="js/angular.js"></script>
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/angular-ui-router.js"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.js"></script>
 <script type="text/javascript" src="js/datatimepicker.js"></script>
 <script type="text/javascript" src="js/angular-cookies.js"></script>
 <script type="text/javascript" src="js/ngStorage.min.js"></script>
+<script type="text/javascript" src="js/d3.min.js"></script>
 
 <script type="text/javascript" src="js/app.js"></script>
 

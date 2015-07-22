@@ -1,8 +1,7 @@
-package com.anilsevici.ilan;
+package com.anilsevici.chart;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,29 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import com.anilsevici.mongodb.MongoDbUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonObject;
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
- * Servlet implementation class IlanGorServlet
+ * Servlet implementation class IlanChartServlet
  */
-@WebServlet("/IlanGorServlet")
-public class IlanGorServlet extends HttpServlet {
+@WebServlet("/IlanChartServlet")
+public class IlanChartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final DBCollection ilancollection;
+	private final DBCollection ilanlarcollection;
 
 	/**
 	 * @throws UnknownHostException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IlanGorServlet() throws UnknownHostException {
+	public IlanChartServlet() throws UnknownHostException {
 		super();
-		ilancollection = MongoDbUtils.getIlanCollection();
-
+		ilanlarcollection = MongoDbUtils.getIlanCollection();
 	}
 
 	/**
@@ -44,18 +40,30 @@ public class IlanGorServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 
-		BasicDBObject query = new BasicDBObject("statu", true);
-		DBCursor cursor = ilancollection.find(query);
-		List<DBObject> ilanlar = cursor.toArray();
+		try {
+			BasicDBObject groupFields = new BasicDBObject("_id", "$tag");
+			groupFields.append("count", new BasicDBObject("$sum", 1));
 
-		Gson gson = new Gson();
-		JsonElement element = gson.toJsonTree(ilanlar,
-				new TypeToken<List<DBObject>>() {
-				}.getType());
-		JsonArray jsonArray = element.getAsJsonArray();
+			BasicDBObject group = new BasicDBObject().append("$group",
+					groupFields);
 
-		writeResponse(response, jsonArray.toString());
+			BasicDBObject condition = new BasicDBObject().append("statu", true);
+			BasicDBObject con = new BasicDBObject().append("$match", condition);
+
+			AggregationOutput output = ilanlarcollection.aggregate(con, group);
+
+			Gson gson = new Gson();
+			JsonObject user = gson
+					.fromJson(output.toString(), JsonObject.class);
+
+			JsonArray el = user.get("result").getAsJsonArray();
+
+			writeResponse(response, el.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

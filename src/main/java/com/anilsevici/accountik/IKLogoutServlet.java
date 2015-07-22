@@ -31,7 +31,7 @@ public class IKLogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Cookie ck = new Cookie("name", "");
+		Cookie ck = new Cookie("name", null);
 		ck.setMaxAge(0);
 		response.addCookie(ck);
 	}

@@ -1,4 +1,4 @@
-package com.anilsevici.ilan;
+package com.anilsevici.linkedlnaccount;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -13,29 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import com.anilsevici.mongodb.MongoDbUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * Servlet implementation class IlanGorServlet
+ * Servlet implementation class BasvuruGoruntuleServlet
  */
-@WebServlet("/IlanGorServlet")
-public class IlanGorServlet extends HttpServlet {
+@WebServlet("/BasvuruGoruntuleServlet")
+public class BasvuruGoruntuleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final DBCollection ilancollection;
+	private final DBCollection usercollection;
 
 	/**
 	 * @throws UnknownHostException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public IlanGorServlet() throws UnknownHostException {
+	public BasvuruGoruntuleServlet() throws UnknownHostException {
 		super();
-		ilancollection = MongoDbUtils.getIlanCollection();
 
+		ilancollection = MongoDbUtils.getIlanCollection();
+		usercollection = MongoDbUtils.getUserCollection();
 	}
 
 	/**
@@ -44,18 +45,41 @@ public class IlanGorServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String userid = request.getParameter("id");
+		String tempid = request.getParameter("tempid");
 
-		BasicDBObject query = new BasicDBObject("statu", true);
-		DBCursor cursor = ilancollection.find(query);
-		List<DBObject> ilanlar = cursor.toArray();
+		if (userid == null)
+			userid = tempid;
+
+		BasicDBObject projectionquery = new BasicDBObject().append("_id",
+				userid);
+		BasicDBObject includekeys = new BasicDBObject().append("basvurular", 1)
+				.append("_id", 0);
+
+		DBObject obj = usercollection.findOne(projectionquery, includekeys);
+		String bas = obj.get("basvurular").toString();
 
 		Gson gson = new Gson();
-		JsonElement element = gson.toJsonTree(ilanlar,
-				new TypeToken<List<DBObject>>() {
+		List<BasicDBObject> basvurular = gson.fromJson(bas,
+				new TypeToken<List<BasicDBObject>>() {
 				}.getType());
-		JsonArray jsonArray = element.getAsJsonArray();
 
-		writeResponse(response, jsonArray.toString());
+		JsonArray array = new JsonArray();
+
+		for (BasicDBObject basvuru : basvurular) {
+
+			String status = basvuru.get("statu").toString();
+			String ilano = basvuru.get("ilanno").toString();
+
+			DBObject ilan = ilancollection.findOne(new BasicDBObject().append(
+					"_id", ilano));
+			ilan.put("statu", status);
+			array.add(new JsonParser().parse(ilan.toString()));
+
+		}
+
+		writeResponse(response, array.toString());
 
 	}
 
