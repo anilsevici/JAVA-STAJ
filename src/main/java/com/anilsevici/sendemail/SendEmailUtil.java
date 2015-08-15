@@ -45,6 +45,8 @@ public class SendEmailUtil {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+		
+		
 
 	}
 }
